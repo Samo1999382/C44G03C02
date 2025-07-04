@@ -6,9 +6,9 @@ Console.WriteLine("------ IsDividable ------");
 try
 {
     Console.Write("Enter a number: ");
-    int input = Convert.ToInt32(Console.ReadLine());
+    int input1 = Convert.ToInt32(Console.ReadLine());
     
-    if ((input%3==0) && (input%4==0))
+    if ((input1%3==0) && (input1%4==0))
     {
         Console.WriteLine("Yes");
     }
@@ -28,9 +28,9 @@ Console.WriteLine("------ Negative or Positive ------");
 try
 {
     Console.Write("Enter a number: ");
-    int input = Convert.ToInt32(Console.ReadLine());
+    int input2 = Convert.ToInt32(Console.ReadLine());
     
-    if (input<0)
+    if (input2<0)
     {
         Console.WriteLine("Negative");
     }
@@ -50,13 +50,13 @@ Console.WriteLine("------ Min & Max ------");
 try
 {
     Console.Write("Enter the first number: ");
-    int input1 = Convert.ToInt32(Console.ReadLine());
+    int input31 = Convert.ToInt32(Console.ReadLine());
     Console.Write("Enter the second number: ");
-    int input2 = Convert.ToInt32(Console.ReadLine());
+    int input32 = Convert.ToInt32(Console.ReadLine());
     Console.Write("Enter the third number: ");
-    int input3 = Convert.ToInt32(Console.ReadLine());
+    int input33 = Convert.ToInt32(Console.ReadLine());
     
-    Console.WriteLine($"Min: {Math.Min(Math.Min(input1, input2), input3)}, Max: {Math.Max(Math.Max(input1, input2), input3)}");
+    Console.WriteLine($"Min: {Math.Min(Math.Min(input31, input32), input33)}, Max: {Math.Max(Math.Max(input31, input32), input33)}");
 }
 catch (Exception e)
 {
@@ -69,9 +69,9 @@ Console.WriteLine("------ Even or Odd ------");
 try
 {
     Console.Write("Enter a number: ");
-    int input = Convert.ToInt32(Console.ReadLine());
+    int input4 = Convert.ToInt32(Console.ReadLine());
     
-    if (input%2==0)
+    if (input4%2==0)
     {
         Console.WriteLine("Even");
     }
@@ -87,20 +87,25 @@ catch (Exception e)
 
 // 5- Write a program that takes character from the user then if it is a vowel chars (a,e,I,o,u) then print (vowel) otherwise print (consonant).
 
-Console.WriteLine("------ Even or Odd ------");
+Console.WriteLine("------ Vowel or Consonant ------");
 char[] vowels = { 'a', 'e', 'i', 'o', 'u' };
 try
 {
     Console.Write("Enter a character: ");
     char inputKey = Console.ReadKey().KeyChar;
+    Console.ReadLine();
     
     if (vowels.Contains(char.ToLower(inputKey)))
     {
         Console.WriteLine("Vowel");
     }
-    else
+    else if (char.IsLetter(inputKey))
     {
         Console.WriteLine("Consonant");
+    }
+    else
+    {
+        Console.WriteLine("Please try again and enter a valid character");
     }
 }
 catch (Exception e)
