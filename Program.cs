@@ -1,268 +1,195 @@
 ﻿using System;
 
-// 19- . Write a program that prints an identity matrix using for loop, in other words takes a value n from the user and shows the identity table of size n * n.
+// 1- Explain the difference between passing (Value type parameters) by value and by reference then write a suitable c# example.
 
-Console.WriteLine("------ identity ------");
-Console.Write("Enter the value of n: ");
-int value = Convert.ToInt32(Console.ReadLine());
-int[,] arr1 = new int[value, value];
-for (int i = 0; i < value; i++)
+Console.WriteLine("------ passing val type by value VS ref ------");
+// passing by value is like passing a copy of the variable where the values of the old and new variables are the same but the memory addresses are not (the old variable doesnt get affecte).
+// code example:
+static void passByValue(int number)
 {
-    for (int j = 0; j < value; j++)
-    {
-        if (i == j)
-        {
-            arr1[i, j] = 1;
-            Console.Write("1");
-        }
-        else
-        {
-            arr1[i, j] = 0;
-            Console.Write("0");
-        }
-        Console.Write(" ");
-    }
-    Console.WriteLine("");
+    number = 10;
+    Console.WriteLine("The new variable after passing by value: "+number);
 }
 
-// 20- Write a program in C# Sharp to find the sum of all elements of the array.
-
-Console.WriteLine("------ arr sum ------");
-int[] arr2_1d = {1,2,3,4,5,6};
-double[,] arr2_2d = {{1,2,3,4,5,6}, {7,8,9,10,11,12}};
-int[,,] arr2_3d = {{{1,2,3,4,5}, {6,7,8,9,10}}, {{11,12,13,14,15}, {16,17,18,19,20}}};
-
-var sum = 0;
-
-double ArrSum(Array arr)
-{
-    foreach (var item in arr2_1d)
-    {
-        sum += item;
-    }
-    return sum;
-}
-
-Console.WriteLine(ArrSum(arr2_1d));
-Console.WriteLine(ArrSum(arr2_2d));
-Console.WriteLine(ArrSum(arr2_3d));
-// Note: it works for any dimensionality
-
-// 21- Write a program in C# Sharp to merge two arrays of the same size sorted in ascending order.
-
-Console.WriteLine("------ MergeSort ------");
-int[] arr3_1 = {1,3,6,2};
-int[] arr3_2 = {9,7,4,5,8};
-
-static int[] MergeAndSortTwoArrays(int[] arr1, int[] arr2)
-{
-    int[] combined = new int[arr1.Length + arr2.Length];
-    Array.Copy(arr1, 0, combined, 0, arr1.Length);
-    Array.Copy(arr2, 0, combined, arr1.Length, arr2.Length);
-
-    MergeSort(combined);
-
-    return combined;
-}
-
-static void MergeSort(int[] array)
-{
-    if (array.Length <= 1)
-        return;
-
-    int[] temp = new int[array.Length];
-    MergeSortRecursive(array, temp, 0, array.Length - 1);
-}
-
-static void MergeSortRecursive(int[] array, int[] temp, int left, int right)
-{
-    if (left < right)
-    {
-        int mid = left + (right - left) / 2;
-        MergeSortRecursive(array, temp, left, mid);
-        MergeSortRecursive(array, temp, mid + 1, right);
-        Merge(array, temp, left, mid, right);
-    }
-}
-
-static void Merge(int[] array, int[] temp, int left, int mid, int right)
-{
-    for (int i = left; i <= right; i++)
-    {
-        temp[i] = array[i];
-    }
-
-    int leftStart = left;
-    int rightStart = mid + 1;
-    int current = left;
-
-    while (leftStart <= mid && rightStart <= right)
-    {
-        if (temp[leftStart] <= temp[rightStart])
-        {
-            array[current] = temp[leftStart];
-            leftStart++;
-        }
-        else
-        {
-            array[current] = temp[rightStart];
-            rightStart++;
-        }
-        current++;
-    }
-
-    while (leftStart <= mid)
-    {
-        array[current] = temp[leftStart];
-        current++;
-        leftStart++;
-    }
-}
-
-int[] arr3 = MergeAndSortTwoArrays(arr3_1, arr3_2);
-foreach (var item in arr3)
-{
-    Console.Write(item + " ");
-}
+int number = 5;
+Console.WriteLine("The old variable before passing by value: "+number);
+passByValue(number);
+Console.WriteLine("The old variable after passing by value: "+number);
 Console.WriteLine();
-// Note: the mergesort algorithm was used here
-
-// 22- Write a program in C# Sharp to count the frequency of each element of an array.\
-
-Console.WriteLine("------ item freq ------");
-static void CountFrequency(int[] arr)
+// while passing by reference, if like passing a value pointing to the address of the old variable, where any change that would happen to the old/new would affect the other one.
+static void passByRef(ref int number)
 {
-    Dictionary<int, int> frequencyMap = new Dictionary<int, int>();
+    number = 20;
+    Console.WriteLine("The new variable after passing by ref: "+number);
+}
 
-    foreach (int num in arr)
+number = 5;
+Console.WriteLine("The old variable before passing by ref: "+number);
+passByRef(ref number);
+Console.WriteLine("The old variable after passing by ref: "+number);
+Console.WriteLine();
+
+// 2- Explain the difference between passing (Reference type parameters) by value and by reference then write a suitable c# example.
+
+Console.WriteLine("------ passing ref type by value VS ref");
+
+
+
+// passing ref parameter by value (which is the default behavior) is like passing a copy of the pointer, it can change the methods properties but cant reassign the pointer to a new object
+// code example: 
+void passCatByValue(Cat cat)
+{
+    cat = new Cat("White");
+    Console.WriteLine("The new cat's color after passing by value: "+cat.Color);
+}
+
+Cat cat1 = new Cat("gray");
+Console.WriteLine("The old cat's color before passing by value: "+cat1.Color);
+passCatByValue(cat1);
+Console.WriteLine("The old cat's color after passing by value: "+cat1.Color);
+Console.WriteLine();
+
+// while passing ref type parameters by fer is passing the actual ref pointer, not a copy of it which gives it the ability to reassign it to a new object
+void passCatByRef(ref Cat cat)
+{
+    cat = new Cat("Black");
+    Console.WriteLine("The new cat's color after passing by ref: "+cat.Color);
+}
+
+Cat cat2 = new Cat("orange");
+Console.WriteLine("The old cat's color before passing by ref: "+cat2.Color);
+passCatByRef(ref cat2);
+Console.WriteLine("The old cat's color after passing by ref: "+cat2.Color);
+Console.WriteLine();
+
+// 3- Write a c# Function that accept 4 parameters from user and return result of summation and subtracting of two numbers
+
+Console.WriteLine("------ Add & Sub ------");
+
+(int, int) addSub(int[] nums)
+{
+    return (nums[0]+nums[1], nums[2]-nums[3]);
+}
+int[] nums = new int[4];
+string[] words = {"first", "second", "third", "fourth"};
+for (int i = 0; i < 4; i++)
+{
+    Console.Write(($"Enter the {words[i]} number: "));
+    nums[i] = Convert.ToInt32(Console.ReadLine());
+}
+(int sum, int sub) = addSub(nums);
+Console.WriteLine("\nThe sum of the first two numbers id: "+sum);
+Console.WriteLine("The difference between the last two numbers is: "+sub);
+
+Console.WriteLine();
+// Note: sorry i use tuple even tho we didnt get to it yet in the course
+
+// 4- Write a program in C# Sharp to create a function to calculate the sum of the individual digits of a given number.
+
+Console.WriteLine("------ sum digits ------");
+Console.Write("Enter a number: ");
+string num = Console.ReadLine();
+int digitSum = 0;
+foreach (char digit in num)
+{
+    digitSum += digit-'0';
+}
+Console.WriteLine($"\nThe sum of digits in {num} equals: "+digitSum);
+// Note: i subtracted the digit's char by the chat 0 cuz when converting it converts fo the representing number of that char in the ASCII table, also there is no need to implicitly convert the char to int since both are technically storing numbers
+
+// 5- Create a function named "IsPrime", which receives an integer number and retuns true if it is prime, or false if it is not:
+
+Console.WriteLine("\n------ IsPrime ------");
+bool IsPrime(int number)
+{
+    if (number <= 1)
+        return false;
+    if (number == 2)
+        return true;
+    if (number % 2 == 0)
+        return false;
+
+    // Check divisors up to square root of the number
+    for (int i = 3; i <= Math.Sqrt(number); i += 2)
     {
-        if (frequencyMap.ContainsKey(num))
-            frequencyMap[num]++;
-        else
-            frequencyMap[num] = 1;
+        if (number % i == 0)
+            return false;
     }
 
-    foreach (var pair in frequencyMap)
+    return true;
+}
+Console.WriteLine($"The number 7 is {(IsPrime(7)?"":"not ")}prime while 6 is {(IsPrime(6)?"":"not")}");
+
+// 6- Create a function named MinMaxArray, to return the minimum and maximum values stored in an array, using reference parameters
+
+Console.WriteLine("\n------ Min&Max arr ------");
+int[] arr = { 1, 2, 3, 4, 5 };
+
+(int min, int max) MinMax(int[] arr)
+{
+    int min = arr[0];
+    int max = arr[0];
+    foreach (int i in arr)
     {
-        Console.WriteLine($"{pair.Key} occurs {pair.Value} time");
+        if (i < min)
+        {
+            min = i;
+        }
+
+        if (i > max)
+        {
+            max = i;
+        }
+    }
+    return (min, max);
+}
+
+(int min, int max) = MinMax(nums);
+Console.WriteLine($"The min number in the array is {min}, and the max number in the array is {max}");
+
+// 7- Create an iterative (non-recursive) function to calculate the factorial of the number specified as parameter
+
+Console.WriteLine("\n------ factorial ------");
+int factorial(int number)
+{
+    int ret = 1;
+    for (int i = number; i >= 1; i--)
+    {
+        ret *= i;
+    }
+    return ret;
+}
+
+Console.Write("Enter a number: ");
+int input = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine($"\nThe factorial of the number {input} is {factorial(input)}");
+
+// 8- Create a function named "ChangeChar" to modify a letter in a certain position (0 based) of a string, replacing it with a different letter
+
+Console.WriteLine("\n------ changeChar ------");
+Console.Write("Enter a word: ");
+string word = Console.ReadLine();
+Console.Write("Enter the index of the number to change: ");
+int index = Convert.ToInt32(Console.ReadLine());
+Console.Write("Enter the letter to change it with: ");
+string letter = Convert.ToString(Console.ReadKey().KeyChar);
+Console.ReadLine();
+
+string ChangeChar(string word, int index, string letter)
+{
+    return word.Remove(index, 1).Insert(index, letter);;
+}
+Console.WriteLine($"\nThe word now after changing the letter is {ChangeChar(word, index, letter)}");
+
+// ----------------------------------------------------------- dont mind this -----------------------------------------------------------
+
+class Cat
+{
+    public string Color {get; set;}
+
+    public Cat(string color)
+    {
+        this.Color = color;
     }
 }
-
-
-int[] arr4 = { 1, 2, 3, 2, 4, 1, 5, 2, 3 };
-Console.WriteLine("Frequency of each element:");
-CountFrequency(arr4);
-// Note: dictionary was used here to store as key and value pairs to make it easier to deal with, and genarics ware used to determine its datatypes
-
-// 23- Write a program in C# Sharp to find maximum and minimum element in an array
-
-Console.WriteLine("------ min & max ------");
-int[] arr5 = { 2, 32, 3, 23, 76 };
-int min = arr5[0];
-int max = arr5[0];
-foreach (int num in arr5)
-{
-    if (num < min)
-        min = num;
-    if (num > max)
-        max = num;
-}
-Console.WriteLine("min: "+min+" max: "+max);
-
-// 24- Write a program in C# Sharp to find the second largest element in an array.
-
-Console.WriteLine("------ second largest ------");
-int[] arr6 = {34, 54, 23, 4, 6};
-max = arr6[0];
-int secmax = arr6[0];
-foreach (int num in arr6)
-{
-    if (num > max)
-        max = num;
-    else if (num > secmax)
-        secmax = num;
-}
-Console.WriteLine("Second largest number: "+secmax);
-
-// 25-. Consider an Array of Integer values with size N, having values as in this Example
-
-Console.WriteLine("------ space between ------");
-Console.Write("Enter array elements (space-separated integers):");
-int[] arr7 = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
-        
-Dictionary<int, List<int>> indices = new Dictionary<int, List<int>>();
-        
-for (int i = 0; i < arr7.Length; i++)
-{
-    if (!indices.ContainsKey(arr7[i]))
-        indices[arr7[i]] = new List<int>();
-    indices[arr7[i]].Add(i);
-}
-        
-int maxDistance = 0;
-foreach (var item in indices)
-{
-    if (item.Value.Count >= 2)
-    {
-        int distance = item.Value[item.Value.Count - 1] - item.Value[0] - 1;
-        if (distance > maxDistance)
-            maxDistance = distance;
-    }
-}
-        
-Console.WriteLine($"Longest distance between two equal cells: {maxDistance}");
-// Note: sorry i once again used dicts and generics once more
-
-// 26- Given a list of space separated words, reverse the order of the words.
-
-Console.WriteLine("------ reverse ------");
-Console.Write("Enter a sentence:");
-string input = Console.ReadLine();
-        
-string[] words = input.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
-Array.Reverse(words);
-        
-Console.WriteLine("Reversed order: " + string.Join(" ", words));
-
-// 27- Write a program to create two multidimensional arrays of same size. Accept value from user and store them in first array.
-// Now copy all the elements of first array on second array and print second array.
-
-Console.WriteLine("----- coping arrays ------");
-Console.Write("Enter number of rows: ");
-int rows = int.Parse(Console.ReadLine());
-Console.Write("Enter number of columns: ");
-int cols = int.Parse(Console.ReadLine());
-        
-int[,] arr8_1 = new int[rows, cols];
-int[,] arr8_2 = new int[rows, cols];
-        
-Console.WriteLine("Enter matrix elements (row-wise):");
-for (int i = 0; i < rows; i++)
-{
-    for (int j = 0; j < cols; j++)
-    {
-        arr8_1[i, j] = int.Parse(Console.ReadLine());
-        arr8_2[i, j] = arr8_1[i, j];
-    }
-}
-        
-Console.WriteLine("\nCopied array:");
-for (int i = 0; i < rows; i++)
-{
-    for (int j = 0; j < cols; j++)
-    {
-        Console.Write(arr8_2[i, j]+ " ");
-    }
-    Console.WriteLine();
-}
-
-// 28- Write a Program to Print One Dimensional Array in Reverse Order
-
-Console.WriteLine("------ print reversed array ------");
-int[] arr9 = {1,2,3,4,5,6};
-        
-Console.Write("Array in reverse order:");
-for (int i = arr9.Length - 1; i >= 0; i--)
-{
-    Console.Write(arr9[i] + " ");
-}
+// Note: i had to move this class to the bottom of the code cuz i am suing top-level statements
